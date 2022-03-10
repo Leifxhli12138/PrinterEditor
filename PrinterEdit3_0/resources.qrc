@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/.DS_Store</file>
+        <file>image/background1.png</file>
+        <file>image/background2.png</file>
+        <file>image/background3.png</file>
+        <file>image/background4.png</file>
+        <file>image/bold.png</file>
+        <file>image/bringtofront.png</file>
+        <file>image/circle.png</file>
+        <file>image/delete.png</file>
+        <file>image/floodfill.png</file>
+        <file>image/italic.png</file>
+        <file>image/linecolor.png</file>
+        <file>image/linepointer.png</file>
+        <file>image/ok.png</file>
+        <file>image/pointer.png</file>
+        <file>image/rectangle.png</file>
+        <file>image/rotation.png</file>
+        <file>image/save-5.png</file>
+        <file>image/sendtoback.png</file>
+        <file>image/textpointer.png</file>
+        <file>image/underline.png</file>
+    </qresource>
+</RCC>
