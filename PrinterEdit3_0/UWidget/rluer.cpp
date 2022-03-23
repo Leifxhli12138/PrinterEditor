@@ -25,6 +25,7 @@ Rluer::Rluer(QWidget *parent) :
     m_scene->createArea(QRectF(0 , 0 , 100, 100));
     connect(ui->graphicsView->horizontalScrollBar(),&QScrollBar::valueChanged,this,&Rluer::updateOffset);
     connect(ui->graphicsView->verticalScrollBar(),&QScrollBar::valueChanged,this,&Rluer::updateOffset);
+
 }
 
 Rluer::~Rluer()

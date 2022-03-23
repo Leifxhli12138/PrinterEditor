@@ -1,35 +1,77 @@
 #include "graphicstextitem.h"
-
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#include <QTextDocument>
+#include <QAbstractTextDocumentLayout>
+#include <QGraphicsItem>
+#include <QDebug>
+#include <QTime>
+#include <QImage>
 
-GraphicsTextItem::GraphicsTextItem(const QString &text ,QGraphicsItem *parent)
-    :GraphicsItemBase(parent)
+GraphicsTextItem:: GraphicsTextItem(const QRect & rect ,QString text,QGraphicsItem * parent)
+    :GraphicsRectItem(rect,parent)
 {
-
+    m_textItem = new QGraphicsTextItemEx(this);
+    m_textItem->setPlainText(text);
+    QFont fnt = QFont("Courier", 15, QFont::Normal);
+    fnt.setStretch(QFont::SemiExpanded);
+    m_textItem->setFont(fnt);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
+QRectF  GraphicsTextItem::rect(){
+    qreal x,y,w,h;
+    x=boundingRect().x();
+    y=boundingRect().y();
+    // x=boundingRect().width()>0?boundingRect().x():boundingRect().x()+boundingRect().width();
+    // y=boundingRect().height()>0?boundingRect().y():boundingRect().y()+boundingRect().height();
+    w=boundingRect().width()>0?boundingRect().width():-boundingRect().width();
+    h=boundingRect().height()>0?boundingRect().height():-boundingRect().height();
+    return QRectF(x,y,w,h);
+}
+
+void GraphicsTextItem::resizeTo(SizeHandleRect::Direction dir, const QPointF &point){
+    GraphicsRectItem::resizeTo(dir, point);
+    //    m_textItem->setFont(QFont("宋体",75,QFont::Bold,true));
+    //    QFontInfo fInfo(m_textItem->font());
+    //    qDebug() <<fInfo.pixelSize();
+    //    qDebug() <<this->boundingRect();
+}
 void GraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->save();
-    QRectF r = option->exposedRect;
-//    painter->translate(-dd->controlOffset());
-//    r.translate(dd->controlOffset());
+    if(m_textItem!=nullptr&&m_textItem->isHide){
+        QFont font;
+        font.setPixelSize(0.75 * qMin(qAbs(rect().width()), qAbs(rect().height())));
+        painter->save();
+        painter->setFont(font);
+        qDebug() <<this->boundingRect();
+        if(boundingRect().width()<0&& boundingRect().height()<0){
+            QMatrix m= painter->matrix();
+            m.scale( -1, -1 );
+            painter->setMatrix( m );
+            painter->drawText(-rect().x(),-rect().y(),rect().width(),rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
+        }
+        else if(boundingRect().width()<0){
+            QMatrix m= painter->matrix();
+            m.scale( -1, 1 );
+            painter->setMatrix( m );
+            painter->drawText(-rect().x(),rect().y(),rect().width(),rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
+        }
+        else if(boundingRect().height()<0){
+            QMatrix m= painter->matrix();
+            m.scale( 1, -1 );
+            painter->setMatrix( m );
+            painter->drawText(rect().x(),-rect().y(),rect().width(),rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
+        }
+        else{
+            painter->drawText(rect(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
+        }
+        painter->restore();
+    }
+}
 
-//    QTextDocument *doc = dd->control->document();
-//    QTextDocumentLayout *layout = qobject_cast<QTextDocumentLayout *>(doc->documentLayout());
-
-//    // the layout might need to expand the root frame to
-//    // the viewport if NoWrap is set
-//    if (layout)
-//        layout->setViewport(dd->boundingRect);
-
-//    dd->control->drawContents(painter, r);
-
-//    if (layout)
-//        layout->setViewport(QRect());
-
-    painter->restore();
+void GraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
+    m_textItem->isHide=false;
+    m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+    this->update();
 }
 

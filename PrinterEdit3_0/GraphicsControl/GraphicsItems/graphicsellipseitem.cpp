@@ -31,4 +31,7 @@ void GraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     painter->setPen(pen());
     painter->setBrush(result);
     painter->drawEllipse(rc);
+//    painter->setPen(QPen(Qt::red,3,Qt::SolidLine));
+//    painter->drawLine(QPointF(0,0),QPointF(rc.width(),rc.height()));
+    painter->end();
 }

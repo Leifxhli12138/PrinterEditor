@@ -1,15 +1,26 @@
 #ifndef GRAPHICSTEXTITEM_H
 #define GRAPHICSTEXTITEM_H
 #include "graphicsitembase.h"
-#include <QGraphicsTextItem>
+#include "graphicsrectitem.h"
+#include <QGraphicsItem>
+#include "qgraphicstextitemex.h"
 
-class GraphicsTextItem: public GraphicsItemBase
+class GraphicsTextItem: public GraphicsRectItem
 {
 public:
-    GraphicsTextItem(const QString &text, QGraphicsItem *parent = nullptr);
+    void setText(QString text);
+    GraphicsTextItem(const QRect & rect ,QString text,QGraphicsItem * parent);
 
+    virtual void resizeTo(SizeHandleRect::Direction dir, const QPointF & point );
+    virtual QRectF  rect() ;
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+private:
+    QGraphicsTextItemEx * m_textItem;
+
+    // QGraphicsItem interface
+protected:
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // GRAPHICSTEXTITEM_H

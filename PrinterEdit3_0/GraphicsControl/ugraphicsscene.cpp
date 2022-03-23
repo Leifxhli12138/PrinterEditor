@@ -9,6 +9,7 @@
 #include <QMargins>
 #include <GraphicsControl/GraphicsItems/graphicsitembase.h>
 #include "GraphicsControl/GraphicsItems/graphicsrectitem.h"
+#include "GraphicsControl/GraphicsItems/graphicstextitem.h"
 #include "GraphicsControl/GraphicsItems/graphicsellipseitem.h"
 #include <QGraphicsTextItem>
 
@@ -112,6 +113,7 @@ void UGraphicsScene::mousePressDrawItem(QGraphicsSceneMouseEvent* event){
     c_last = event->scenePos();
 
     clearSelection();
+    item=nullptr;
     switch ( c_drawShape ){
     case ItemShape::rectangle:
         item = new GraphicsRectItem(QRect(0,0,0,0),nullptr);
@@ -122,7 +124,12 @@ void UGraphicsScene::mousePressDrawItem(QGraphicsSceneMouseEvent* event){
         item->setPen(Qt::NoPen);
         break;
     case ItemShape::line:
-
+//        item = new GraphicsTextItem(QRect(0,0,0,0),"hello",nullptr);
+//        item->setPen(Qt::NoPen);
+        break;
+    case ItemShape::text:
+        item = new GraphicsTextItem(QRect(0,0,0,0),"hello",nullptr);
+        item->setPen(Qt::NoPen);
         break;
     }
     if ( item == nullptr) return;
@@ -143,7 +150,6 @@ void UGraphicsScene::mouseReleaseDrawItem(QGraphicsSceneMouseEvent* event){
         this->mousePressSelectItem(event);
     }
     this->mouseReleaseSelectItem(event);
-    qDebug() <<"3";
 }
 
 //mouse select item
@@ -151,7 +157,7 @@ void UGraphicsScene::mousePressSelectItem(QGraphicsSceneMouseEvent* event){
     c_down = event->scenePos();
     c_last = event->scenePos();
 
-    qDebug() <<"2";
+    this->setFocus();
     if (!m_hoverSizer)
         QGraphicsScene::mousePressEvent(event);
 
@@ -169,6 +175,7 @@ void UGraphicsScene::mousePressSelectItem(QGraphicsSceneMouseEvent* event){
         {
             if(nDragHandle==SizeHandleRect::Rotate)
             {
+                qDebug()<<"rotate";
                 m_selectMode=SelectMode::rotate;
                 item->setRotateStart(event->scenePos());
             }

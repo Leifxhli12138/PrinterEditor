@@ -35,7 +35,7 @@ SOURCES += \
     GraphicsControl/GraphicsItems/graphicsellipseitem.cpp \
     UWidget/rluer.cpp \
     GraphicsControl/GraphicsItems/graphicstextitem.cpp \
-    GraphicsControl/GraphicsItems/base.cpp
+    GraphicsControl/GraphicsItems/qgraphicstextitemex.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +49,7 @@ HEADERS += \
     UWidget/rluer.h \
     GraphicsControl/dpitool.h \
     GraphicsControl/GraphicsItems/graphicstextitem.h \
-    GraphicsControl/GraphicsItems/base.h
+    GraphicsControl/GraphicsItems/qgraphicstextitemex.h
 
 FORMS += \
         mainwindow.ui \
