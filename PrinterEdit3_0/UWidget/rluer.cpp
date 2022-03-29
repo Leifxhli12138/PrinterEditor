@@ -162,10 +162,12 @@ void Rluer::drawSelectedElement(QPainter* painter){
         qreal x2= x1+(items.first()->boundingRect().width()*_scaleValue);
         qreal y2= y1+(items.first()->boundingRect().height()*_scaleValue);
 
-        painter->setPen(QPen(QColor(0,150,0),1,Qt::SolidLine));
-        painter->drawLine(QPointF(x1,0),QPointF(x1, m_rluerHeight));
-        painter->drawLine(QPointF(x2,0),QPointF(x2, m_rluerHeight));
-        painter->drawLine(QPointF(0,y1),QPointF(m_rluerHeight, y1));
-        painter->drawLine(QPointF(0,y2),QPointF(m_rluerHeight, y2));
+//        painter->setPen(QPen(QColor(0,150,0),1,Qt::SolidLine));
+//        painter->drawLine(QPointF(x1,0),QPointF(x1, m_rluerHeight));
+//        painter->drawLine(QPointF(x2,0),QPointF(x2, m_rluerHeight));
+        painter->fillRect(QRectF(x1,m_rluerHeight-5,x2-x1, 5),Qt::green);
+//        painter->drawLine(QPointF(0,y1),QPointF(m_rluerHeight, y1));
+//        painter->drawLine(QPointF(0,y2),QPointF(m_rluerHeight, y2));
+        painter->fillRect(QRectF(m_rluerHeight-5,y1,5,y2-y1),Qt::green);
     }
 }

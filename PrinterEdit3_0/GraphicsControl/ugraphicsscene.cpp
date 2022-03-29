@@ -124,8 +124,8 @@ void UGraphicsScene::mousePressDrawItem(QGraphicsSceneMouseEvent* event){
         item->setPen(Qt::NoPen);
         break;
     case ItemShape::line:
-//        item = new GraphicsTextItem(QRect(0,0,0,0),"hello",nullptr);
-//        item->setPen(Qt::NoPen);
+        //        item = new GraphicsTextItem(QRect(0,0,0,0),"hello",nullptr);
+        //        item->setPen(Qt::NoPen);
         break;
     case ItemShape::text:
         item = new GraphicsTextItem(QRect(0,0,0,0),"hello",nullptr);
@@ -166,21 +166,20 @@ void UGraphicsScene::mousePressSelectItem(QGraphicsSceneMouseEvent* event){
     GraphicsItemBase *item = nullptr;
 
     if ( items.count() == 1 )
+    {
         item = qgraphicsitem_cast<GraphicsItemBase*>(items.first());
-
+    }
     if ( item != nullptr ){
 
         nDragHandle = item->hitTest(event->scenePos());
         if ( nDragHandle !=SizeHandleRect::None)
         {
             if(nDragHandle==SizeHandleRect::Rotate)
-            {
-                qDebug()<<"rotate";
                 m_selectMode=SelectMode::rotate;
-                item->setRotateStart(event->scenePos());
-            }
             else
                 m_selectMode = SelectMode::size;
+            //旋转or改变size时触发
+            item->setRotateStart(event->scenePos());//更新旋转坐标,此步非常重要，否则会引起QGraphicsItem旋转后，改变大小会让item平移
         }
         else
             m_selectMode = SelectMode::move;

@@ -184,6 +184,22 @@ Qt::CursorShape GraphicsItemBase::getCursor(SizeHandleRect::Direction dir, QPoin
 void GraphicsItemBase::resizeTo(SizeHandleRect::Direction dir, const QPointF &point)
 {
 
+    //       qDebug()<<"resizeto:"<<transformOriginPoint();
+    //xy坐标没变化，旋转中心坐标一直在变化
+    //        qreal x=rect().center().x();
+    //        qreal y=rect().center().y();
+    //        qreal x1=x*cos(m_angle)-y*sin(m_angle);
+    //        qreal y1=x*sin(m_angle)+y*cos(m_angle);
+
+    //        qDebug()<<"resizeto old:"<<transformOriginPoint();
+    //        setTransformOriginPoint(x,y);
+    //        qDebug()<<"resizeto new:"<<x<<y<<x1<<y1;
+    //        QPointF p1=QPointF(this->x()+this->rect().width()/2,this->y()+this->rect().height()/2);
+    //        QPointF p2=QPointF(x+this->x(),y+this->y());
+    ////        QPointF p=p1-p2;
+    ////        qDebug()<<"width"<<this->rect().width()<<this->rect().height();
+    //        qDebug()<<"p1:"<<p1<<"p2:"<<p2<<"p3"<<this->mapToScene(transformOriginPoint());
+
 }
 
 void GraphicsItemBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -201,12 +217,12 @@ QVariant GraphicsItemBase::itemChange(QGraphicsItem::GraphicsItemChange change, 
 {
     //选中时
     if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
-//        qDebug()<<" Item Selected : " << value.toString();
+        //        qDebug()<<" Item Selected : " << value.toString();
         setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
     }else if ( change == QGraphicsItem::ItemRotationHasChanged ){
-//        qDebug()<<"Item Rotation Changed:" << value.toString();
+        //        qDebug()<<"Item Rotation Changed:" << value.toString();
     }else if ( change == QGraphicsItem::ItemTransformOriginPointHasChanged ){
-//        qDebug()<<"ItemTransformOriginPointHasChanged:" << value.toPointF();
+        //        qDebug()<<"ItemTransformOriginPointHasChanged:" << value.toPointF();
     }
     return value;
 }
@@ -214,6 +230,7 @@ QVariant GraphicsItemBase::itemChange(QGraphicsItem::GraphicsItemChange change, 
 void GraphicsItemBase::setRotateStart(QPointF point ){
     m_mouseRotateStart=point;
     m_fLastAngle=rotation();
+
 }
 void GraphicsItemBase::setRotateEnd(QPointF point)
 {
@@ -225,6 +242,6 @@ void GraphicsItemBase::setRotateEnd(QPointF point)
     qreal angle =atan2f(v2.y(), v2.x()) - atan2f(v1.y(), v1.x());
 
     angle =m_fLastAngle+ angle * 180 / 3.1415926;
-
+    m_angle= angle;
     setRotation(angle);
 }

@@ -22,10 +22,10 @@ QRectF  GraphicsTextItem::rect(){
     qreal x,y,w,h;
     x=boundingRect().x();
     y=boundingRect().y();
-    // x=boundingRect().width()>0?boundingRect().x():boundingRect().x()+boundingRect().width();
-    // y=boundingRect().height()>0?boundingRect().y():boundingRect().y()+boundingRect().height();
-    w=boundingRect().width()>0?boundingRect().width():-boundingRect().width();
-    h=boundingRect().height()>0?boundingRect().height():-boundingRect().height();
+    //    w=boundingRect().width()>0?boundingRect().width():-boundingRect().width();
+    //    h=boundingRect().height()>0?boundingRect().height():-boundingRect().height();
+    w=boundingRect().width();
+    h=boundingRect().height();
     return QRectF(x,y,w,h);
 }
 
@@ -39,28 +39,30 @@ void GraphicsTextItem::resizeTo(SizeHandleRect::Direction dir, const QPointF &po
 void GraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     if(m_textItem!=nullptr&&m_textItem->isHide){
+        int minWidth= 0.75 * qMin(qAbs(rect().width()), qAbs(rect().height()));
+        if(minWidth<=0)
+            return;
         QFont font;
-        font.setPixelSize(0.75 * qMin(qAbs(rect().width()), qAbs(rect().height())));
+        font.setPixelSize(minWidth);
         painter->save();
         painter->setFont(font);
-        qDebug() <<this->boundingRect();
         if(boundingRect().width()<0&& boundingRect().height()<0){
             QMatrix m= painter->matrix();
             m.scale( -1, -1 );
             painter->setMatrix( m );
-            painter->drawText(-rect().x(),-rect().y(),rect().width(),rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
+            painter->drawText(-rect().x(),-rect().y(),-rect().width(),-rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
         }
         else if(boundingRect().width()<0){
             QMatrix m= painter->matrix();
             m.scale( -1, 1 );
             painter->setMatrix( m );
-            painter->drawText(-rect().x(),rect().y(),rect().width(),rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
+            painter->drawText(-rect().x(),rect().y(),-rect().width(),rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
         }
         else if(boundingRect().height()<0){
             QMatrix m= painter->matrix();
             m.scale( 1, -1 );
             painter->setMatrix( m );
-            painter->drawText(rect().x(),-rect().y(),rect().width(),rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
+            painter->drawText(rect().x(),-rect().y(),rect().width(),-rect().height(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
         }
         else{
             painter->drawText(rect(), Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());

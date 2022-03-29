@@ -26,7 +26,7 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     typedef QVector<SizeHandleRect*> Handles;
     Handles m_handles;
-    qreal angle=0;
+    qreal m_angle=0;
     qreal m_fLastAngle=0;
     QPointF m_mouseRotateStart;
     QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, const QPen &pen) const;

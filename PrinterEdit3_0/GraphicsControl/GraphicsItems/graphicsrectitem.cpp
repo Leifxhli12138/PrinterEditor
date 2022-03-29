@@ -46,16 +46,14 @@ QPainterPath GraphicsRectItem::shape() const
 
 void GraphicsRectItem::resizeTo(SizeHandleRect::Direction dir, const QPointF &point)
 {
+    GraphicsItemBase::resizeTo(dir,point);
     QPointF local = mapFromScene(point);
     QString dirName;
     m_delta= this->rect().toRect();
     switch (dir) {
 
     case SizeHandleRect::Right:
-        if(local.x() > m_delta.left())
-            m_delta.setRight(local.x());
-        else
-            m_delta.setLeft(local.x());
+        m_delta.setRight(local.x());
         break;
     case SizeHandleRect::RightTop:
         dirName = "RightTop";
