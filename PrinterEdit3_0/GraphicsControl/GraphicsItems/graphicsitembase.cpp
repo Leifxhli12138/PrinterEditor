@@ -183,23 +183,15 @@ Qt::CursorShape GraphicsItemBase::getCursor(SizeHandleRect::Direction dir, QPoin
 
 void GraphicsItemBase::resizeTo(SizeHandleRect::Direction dir, const QPointF &point)
 {
+    //计算正常旋转角度（0度）下，中心的的坐标
+    auto oldCenter=QPointF(x()+rect().x()+rect().width()/2,y()+rect().y()+rect().height()/2);
+    //计算旋转后，中心的的坐标
+    auto newCenter= mapToScene(rect().center());
+    //设置正常坐标减去两个坐标的差
+    auto difference=oldCenter-newCenter;
+    setPos(x()-difference.x(),y()-difference.y());
 
-    //       qDebug()<<"resizeto:"<<transformOriginPoint();
-    //xy坐标没变化，旋转中心坐标一直在变化
-    //        qreal x=rect().center().x();
-    //        qreal y=rect().center().y();
-    //        qreal x1=x*cos(m_angle)-y*sin(m_angle);
-    //        qreal y1=x*sin(m_angle)+y*cos(m_angle);
-
-    //        qDebug()<<"resizeto old:"<<transformOriginPoint();
-    //        setTransformOriginPoint(x,y);
-    //        qDebug()<<"resizeto new:"<<x<<y<<x1<<y1;
-    //        QPointF p1=QPointF(this->x()+this->rect().width()/2,this->y()+this->rect().height()/2);
-    //        QPointF p2=QPointF(x+this->x(),y+this->y());
-    ////        QPointF p=p1-p2;
-    ////        qDebug()<<"width"<<this->rect().width()<<this->rect().height();
-    //        qDebug()<<"p1:"<<p1<<"p2:"<<p2<<"p3"<<this->mapToScene(transformOriginPoint());
-
+    setTransformOriginPoint(rect().center());
 }
 
 void GraphicsItemBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -234,7 +226,7 @@ void GraphicsItemBase::setRotateStart(QPointF point ){
 }
 void GraphicsItemBase::setRotateEnd(QPointF point)
 {
-    setTransformOriginPoint(rect().center());
+    //    setTransformOriginPoint(rect().center());
     QPointF ori = mapToScene(transformOriginPoint());
     QPointF v1 = m_mouseRotateStart - ori;
     QPointF v2 = point - ori;

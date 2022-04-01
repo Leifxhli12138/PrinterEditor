@@ -21,6 +21,7 @@ public:
     virtual QRectF  rect() const { return QRectF(0,0,0,0);}
 protected:
     virtual void updateGeometry();
+    void setRect(QRectF rect);
     void setState(SelectionHandleState st);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);

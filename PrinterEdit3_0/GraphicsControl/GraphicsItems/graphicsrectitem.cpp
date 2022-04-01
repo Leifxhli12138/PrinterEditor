@@ -85,7 +85,6 @@ void GraphicsRectItem::resizeTo(SizeHandleRect::Direction dir, const QPointF &po
         break;
     case SizeHandleRect::Rotate:
         dirName = "Rotate";
-
         setRotateEnd(point);
         break;
     default:
@@ -98,6 +97,7 @@ void GraphicsRectItem::resizeTo(SizeHandleRect::Direction dir, const QPointF &po
     m_height = m_delta.height();
 
     updateGeometry();
+
 }
 
 void GraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -112,5 +112,7 @@ void GraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setPen(pen());
     painter->setBrush(result);
     painter->drawRect(rect());
+    painter->setPen(QPen(Qt::green,2,Qt::SolidLine));
+    painter->drawRect(this->rect().center().x()-5,this->rect().center().y()-5,10,10);
 }
 

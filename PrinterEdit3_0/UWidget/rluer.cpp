@@ -157,10 +157,11 @@ void Rluer::drawSelectedElement(QPainter* painter){
         qreal _scaleValue=ui->graphicsView->scaleValue();
         QPointF b=ui->graphicsView->mapToScene(0,0);
         //计算item在视场中的位置
-        qreal x1= m_rluerHeight+(items.first()->x()-b.x())*_scaleValue;
-        qreal y1= m_rluerHeight+(items.first()->y()-b.y())*_scaleValue;
-        qreal x2= x1+(items.first()->boundingRect().width()*_scaleValue);
-        qreal y2= y1+(items.first()->boundingRect().height()*_scaleValue);
+        QRectF rect=items.first()->boundingRect();
+        qreal x1= m_rluerHeight+(items.first()->x()+rect.x()-b.x())*_scaleValue;
+        qreal y1= m_rluerHeight+(items.first()->y()+rect.y()-b.y())*_scaleValue;
+        qreal x2= x1+(rect.width()*_scaleValue);
+        qreal y2= y1+(rect.height()*_scaleValue);
 
 //        painter->setPen(QPen(QColor(0,150,0),1,Qt::SolidLine));
 //        painter->drawLine(QPointF(x1,0),QPointF(x1, m_rluerHeight));
