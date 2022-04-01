@@ -112,7 +112,5 @@ void GraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setPen(pen());
     painter->setBrush(result);
     painter->drawRect(rect());
-    painter->setPen(QPen(Qt::green,2,Qt::SolidLine));
-    painter->drawRect(this->rect().center().x()-5,this->rect().center().y()-5,10,10);
 }
 

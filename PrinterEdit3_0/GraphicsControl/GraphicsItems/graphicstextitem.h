@@ -13,11 +13,13 @@ public:
 
     virtual void resizeTo(SizeHandleRect::Direction dir, const QPointF & point );
     virtual QRectF  rect() ;
+    void enableStretch() { m_isStretch=true;}
+    void unableStretch() { m_isStretch=false;}
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private:
     QGraphicsTextItemEx * m_textItem;
-
+    bool m_isStretch=true;//是否开启拉伸
     // QGraphicsItem interface
 protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);

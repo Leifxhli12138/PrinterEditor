@@ -62,7 +62,6 @@ void UGraphicsScene::drawBackground(QPainter *painter, const QRectF &rect){
 void UGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     emit rluerDispalyItemPoint();
-qDebug()<<"click point:"<<event->scenePos();
     //create obj
     if(c_drawShape != ItemShape::selection){
         this->mousePressDrawItem(event);

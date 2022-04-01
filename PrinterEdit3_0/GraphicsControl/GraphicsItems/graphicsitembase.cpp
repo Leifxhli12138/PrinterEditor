@@ -185,12 +185,12 @@ void GraphicsItemBase::resizeTo(SizeHandleRect::Direction dir, const QPointF &po
 {
     //计算正常旋转角度（0度）下，中心的的坐标
     auto oldCenter=QPointF(x()+rect().x()+rect().width()/2,y()+rect().y()+rect().height()/2);
-    //计算旋转后，中心的的坐标
+    //计算旋转后，中心坐标在view中的位置
     auto newCenter= mapToScene(rect().center());
     //设置正常坐标减去两个坐标的差
     auto difference=oldCenter-newCenter;
     setPos(x()-difference.x(),y()-difference.y());
-
+    //最后设置旋转中心
     setTransformOriginPoint(rect().center());
 }
 
@@ -226,7 +226,6 @@ void GraphicsItemBase::setRotateStart(QPointF point ){
 }
 void GraphicsItemBase::setRotateEnd(QPointF point)
 {
-    //    setTransformOriginPoint(rect().center());
     QPointF ori = mapToScene(transformOriginPoint());
     QPointF v1 = m_mouseRotateStart - ori;
     QPointF v2 = point - ori;
