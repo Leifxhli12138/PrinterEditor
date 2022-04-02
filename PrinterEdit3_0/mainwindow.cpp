@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     group->addAction(ui->actionRectangle);
     group->addAction(ui->actionText);
     group->addAction(ui->actionLine);
+    group->addAction(ui->actionText2);
     ui->actionSelection->setChecked(true);
 
     resize(800,600);
@@ -28,7 +29,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionRectangle,SIGNAL(triggered()),this,SLOT(addShape()));
     connect(ui->actionText,SIGNAL(triggered()),this,SLOT(addShape()));
     connect(ui->actionLine,SIGNAL(triggered()),this,SLOT(addShape()));
+    connect(ui->actionText2,SIGNAL(triggered()),this,SLOT(addShape()));
 
+//    foreach(QAction* a,group->actions()){
+//        connect(a,SIGNAL(triggered()),this,SLOT(addShape()));
+//    }
     connect(&m_timer,SIGNAL(timeout()),this,SLOT(updateUI()));
     m_timer.start(100);
 }
@@ -50,6 +55,8 @@ void MainWindow::addShape()
         UGraphicsScene::c_drawShape = ItemShape::line;
     if ( sender() == ui->actionText)
         UGraphicsScene::c_drawShape = ItemShape::text;
+    if ( sender() == ui->actionText2)
+        UGraphicsScene::c_drawShape = ItemShape::text2;
 }
 
 void MainWindow::updateUI()
@@ -64,6 +71,8 @@ void MainWindow::updateUI()
         ui->actionText->setChecked(true);
     else if (UGraphicsScene::c_drawShape == ItemShape::line )
         ui->actionLine->setChecked(true);
+    else if (UGraphicsScene::c_drawShape == ItemShape::text2 )
+        ui->actionText2->setChecked(true);
 
 }
 

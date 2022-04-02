@@ -10,7 +10,7 @@ static const int SELECTION_MARGIN = 10 ;
 
 enum SelectionHandleState { SelectionHandleOff, SelectionHandleInactive, SelectionHandleActive };
 enum SelectMode { none, netSelect,  move, size,  rotate };
-enum ItemShape { selection , line , rectangle , roundrect , text,ellipse , poly };
+enum ItemShape { selection , line , rectangle , roundrect , text,text2,ellipse , poly };
 
 }
 #endif // ENUMS_H

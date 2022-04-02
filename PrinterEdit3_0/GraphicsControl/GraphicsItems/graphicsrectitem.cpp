@@ -27,7 +27,7 @@ GraphicsRectItem::GraphicsRectItem(const QRect & rect ,QGraphicsItem *parent)
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     m_delta =rect;
-    this->setAcceptHoverEvents(true);
+    this->setAcceptHoverEvents(true);//接受悬停事件
 }
 
 QRectF GraphicsRectItem::boundingRect() const

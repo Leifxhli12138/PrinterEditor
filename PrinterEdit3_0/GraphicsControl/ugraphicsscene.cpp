@@ -10,6 +10,7 @@
 #include <GraphicsControl/GraphicsItems/graphicsitembase.h>
 #include "GraphicsControl/GraphicsItems/graphicsrectitem.h"
 #include "GraphicsControl/GraphicsItems/graphicstextitem.h"
+#include "GraphicsControl/GraphicsItems/graphicslineitem.h"
 #include "GraphicsControl/GraphicsItems/graphicsellipseitem.h"
 #include <QGraphicsTextItem>
 
@@ -123,11 +124,17 @@ void UGraphicsScene::mousePressDrawItem(QGraphicsSceneMouseEvent* event){
         item->setPen(Qt::NoPen);
         break;
     case ItemShape::line:
-        //        item = new GraphicsTextItem(QRect(0,0,0,0),"hello",nullptr);
-        //        item->setPen(Qt::NoPen);
+        item = new GraphicsLineItem(c_down,c_last,nullptr);
+        item->setPen(QPen(Qt::green,10,Qt::SolidLine));
         break;
     case ItemShape::text:
-        item = new GraphicsTextItem(QRect(0,0,0,0),"hello",nullptr);
+        item = new GraphicsTextItem(QRect(0,0,0,0),"please input",nullptr);
+        static_cast<GraphicsTextItem*>(item)->enableStretch();
+        item->setPen(Qt::NoPen);
+        break;
+    case ItemShape::text2:
+        item = new GraphicsTextItem(QRect(0,0,0,0),"please input",nullptr);
+        static_cast<GraphicsTextItem*>(item)->unableStretch();
         item->setPen(Qt::NoPen);
         break;
     }

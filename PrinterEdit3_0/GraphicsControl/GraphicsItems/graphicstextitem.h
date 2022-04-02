@@ -17,6 +17,7 @@ public:
     void unableStretch() { m_isStretch=false;}
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+//    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 private:
     QGraphicsTextItemEx * m_textItem;
     bool m_isStretch=true;//是否开启拉伸

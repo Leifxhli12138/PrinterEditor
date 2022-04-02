@@ -32,6 +32,7 @@
    <addaction name="actionRectangle"/>
    <addaction name="actionText"/>
    <addaction name="actionLine"/>
+   <addaction name="actionText2"/>
   </widget>
   <action name="actionSelection">
    <property name="checkable">
@@ -90,7 +91,7 @@
     <string>4</string>
    </property>
    <property name="toolTip">
-    <string>文本</string>
+    <string>常规文本</string>
    </property>
   </action>
   <action name="actionLine">
@@ -106,6 +107,21 @@
    </property>
    <property name="toolTip">
     <string>线段</string>
+   </property>
+  </action>
+  <action name="actionText2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/image/textpointer.png</normaloff>:/image/textpointer.png</iconset>
+   </property>
+   <property name="text">
+    <string>6</string>
+   </property>
+   <property name="toolTip">
+    <string>变形文本</string>
    </property>
   </action>
  </widget>

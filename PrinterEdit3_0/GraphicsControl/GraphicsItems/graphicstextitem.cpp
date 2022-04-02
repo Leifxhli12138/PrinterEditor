@@ -27,6 +27,10 @@ QRectF  GraphicsTextItem::rect(){
     return QRectF(x,y,w,h);
 }
 
+//QVariant GraphicsTextItem::itemChange(GraphicsItemChange change, const QVariant &value){
+//   // GraphicsItemBase::itemChange(change,value);
+//}
+
 void GraphicsTextItem::resizeTo(SizeHandleRect::Direction dir, const QPointF &point){
     GraphicsRectItem::resizeTo(dir, point);
 }
