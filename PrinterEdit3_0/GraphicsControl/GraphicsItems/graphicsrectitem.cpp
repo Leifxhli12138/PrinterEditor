@@ -22,6 +22,7 @@ GraphicsRectItem::GraphicsRectItem(const QRect & rect ,QGraphicsItem *parent)
         SizeHandleRect *shr = new SizeHandleRect(this, static_cast<SizeHandleRect::Direction>(i));
         m_handles.push_back(shr);
     }
+
     updateGeometry();
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);

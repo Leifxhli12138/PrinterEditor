@@ -204,13 +204,18 @@ void GraphicsItemBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
         setPos(0, 0);
     }
 }
+void GraphicsItemBase::uncheckedEvent(){
 
+}
 QVariant GraphicsItemBase::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     //选中时
     if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
-        //        qDebug()<<" Item Selected : " << value.toString();
+//              qDebug()<<" Item Selected : " << value.toString();
         setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
+        if(!value.toBool()){
+            uncheckedEvent();
+        }
     }else if ( change == QGraphicsItem::ItemRotationHasChanged ){
         //        qDebug()<<"Item Rotation Changed:" << value.toString();
     }else if ( change == QGraphicsItem::ItemTransformOriginPointHasChanged ){
@@ -218,6 +223,7 @@ QVariant GraphicsItemBase::itemChange(QGraphicsItem::GraphicsItemChange change, 
     }
     return value;
 }
+
 //记录按下旋转按钮时的坐标
 void GraphicsItemBase::setRotateStart(QPointF point ){
     m_mouseRotateStart=point;

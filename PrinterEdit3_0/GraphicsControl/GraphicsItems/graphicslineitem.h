@@ -25,9 +25,5 @@ private:
 protected:
     void updateGeometry();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    //protected:
-    //    qreal m_width;
-    //    qreal m_height;
-    //    QRect m_delta ;
 };
 #endif // GRAPHICSLINEITEM_H

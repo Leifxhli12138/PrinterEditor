@@ -9,7 +9,7 @@
 class GraphicsRectItem : public GraphicsItemBase
 {
 public:
-    GraphicsRectItem(const QRect & rect ,QGraphicsItem * parent);
+    GraphicsRectItem(const QRect & rect,QGraphicsItem * parent);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

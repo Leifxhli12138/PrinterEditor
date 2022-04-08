@@ -20,6 +20,7 @@ public:
     virtual Qt::CursorShape getCursor(SizeHandleRect::Direction dir, QPointF point );
     virtual QRectF  rect() const { return QRectF(0,0,0,0);}
 protected:
+    virtual void uncheckedEvent();
     virtual void updateGeometry();
     void setRect(QRectF rect);
     void setState(SelectionHandleState st);

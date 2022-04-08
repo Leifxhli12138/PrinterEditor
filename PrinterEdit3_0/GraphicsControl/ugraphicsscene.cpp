@@ -124,7 +124,7 @@ void UGraphicsScene::mousePressDrawItem(QGraphicsSceneMouseEvent* event){
         item->setPen(Qt::NoPen);
         break;
     case ItemShape::line:
-        item = new GraphicsLineItem(c_down,c_last,nullptr);
+        item = new GraphicsLineItem(QPointF(0,0),QPointF(0,0),nullptr);
         item->setPen(QPen(Qt::green,10,Qt::SolidLine));
         break;
     case ItemShape::text:
@@ -181,11 +181,13 @@ void UGraphicsScene::mousePressSelectItem(QGraphicsSceneMouseEvent* event){
         if ( nDragHandle !=SizeHandleRect::None)
         {
             if(nDragHandle==SizeHandleRect::Rotate)
+             {
                 m_selectMode=SelectMode::rotate;
+                //旋转时触发
+                item->setRotateStart(event->scenePos());//更新旋转坐标
+            }
             else
                 m_selectMode = SelectMode::size;
-            //旋转or改变size时触发
-            item->setRotateStart(event->scenePos());//更新旋转坐标,此步非常重要，否则会引起QGraphicsItem旋转后，改变大小会让item平移
         }
         else
             m_selectMode = SelectMode::move;
@@ -194,7 +196,7 @@ void UGraphicsScene::mousePressSelectItem(QGraphicsSceneMouseEvent* event){
     //==============画框选框
     if( m_selectMode ==SelectMode::none  ){
         m_selectMode = SelectMode::netSelect;
-        getFirstView()->setDragMode(QGraphicsView::RubberBandDrag);
+        getFirstView()->setDragMode(QGraphicsView::RubberBandDrag);//使用橡皮筋效果，进行区域选择，可以选中一个区域内的所有图形项。
 
     }
 }
