@@ -198,23 +198,26 @@ void GraphicsItemBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     QMenu menu;
     QAction *moveAction = menu.addAction("move back");
-    QAction *actAction = menu.addAction("test");
+    QAction *actAction = menu.addAction("remove");
     QAction *selectedAction = menu.exec(event->screenPos());
     if(selectedAction == moveAction) {
         setPos(0, 0);
+    }else if(selectedAction == actAction) {
+      this->scene()->removeItem(this);
     }
 }
-void GraphicsItemBase::uncheckedEvent(){
 
-}
 QVariant GraphicsItemBase::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
     //选中时
     if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
-//              qDebug()<<" Item Selected : " << value.toString();
+        //              qDebug()<<" Item Selected : " << value.toString();
         setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
         if(!value.toBool()){
             uncheckedEvent();
+        }
+        else{
+            selectedEvent();
         }
     }else if ( change == QGraphicsItem::ItemRotationHasChanged ){
         //        qDebug()<<"Item Rotation Changed:" << value.toString();

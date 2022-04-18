@@ -6,49 +6,42 @@
 #include <QDebug>
 #include <QTime>
 #include <QImage>
+#include <QGraphicsProxyWidget>
+#include <QTextEdit>
 
 GraphicsTextItem:: GraphicsTextItem(const QRect & rect ,QString text,QGraphicsItem * parent)
     :GraphicsRectItem(rect,parent)
 {
-    m_textItem = new QGraphicsTextItemEx(this);
-    m_textItem->setPlainText(text);
-    //    QTextBlockFormat format;
-    //    format.setAlignment(Qt::AlignCenter);
-    //    QTextCursor cursor = m_textItem->textCursor();
-    //    cursor.select(QTextCursor::Document);
-    //    cursor.mergeBlockFormat(format);
-    //    cursor.clearSelection();
-    //    m_textItem->setTextCursor(cursor);
+    m_Textwidget=new QGraphicsProxyWidget(this);
+    m_text=new QGraphicsTextItemEx("hello");
+    m_Textwidget->setWidget(m_text);
+    m_text->hide();
 
-    QFont fnt = QFont("Courier", 15, QFont::Normal);
-    fnt.setStretch(QFont::SemiExpanded);
-    m_textItem->setFont(fnt);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
 }
 
 QRectF  GraphicsTextItem::rect(){
-    qreal x,y,w,h;
-    x=boundingRect().x();
-    y=boundingRect().y();
-    w=boundingRect().width();
-    h=boundingRect().height();
-    return QRectF(x,y,w,h);
+    return boundingRect();
 }
-
+void GraphicsTextItem::multipleChoiceEvent(){
+    this->uncheckedEvent();
+}
 void GraphicsTextItem::uncheckedEvent(){
-
-    m_textItem->isHide=true;
-    m_textItem->setTextInteractionFlags(Qt::NoTextInteraction); //取消编辑状态
+    m_text->hide();
 }
 void GraphicsTextItem::resizeTo(SizeHandleRect::Direction dir, const QPointF &point){
     GraphicsRectItem::resizeTo(dir, point);
-    if(! m_textItem->isHide)
+    if(m_Textwidget->isVisible())
         this->uncheckedEvent();
+
+    if(SizeHandleRect::Rotate!=dir)
+        //重新设置内置textEdit大小
+        m_text->resize(abs(rect().width()),abs(rect().height()));
 }
-//textbox限制大小，以及滚动条没有实现
+
 void GraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if(m_textItem!=nullptr&&m_textItem->isHide){
+    if(m_Textwidget!=nullptr&&!m_Textwidget->isVisible()){
         qreal textItemX=rect().x();
         qreal textItemY=rect().y();
         if(rect().width()<0)
@@ -57,10 +50,11 @@ void GraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
             textItemY+=rect().height();
         if(!rect().height()||!rect().width())return;
         //设置textBox新坐标
-        m_textItem->setPos(QPointF(textItemX,textItemY));
+        m_Textwidget->setPos(QPointF(textItemX,textItemY));
+
         //多行文本绘制
         QFontMetrics metrics(painter->font());
-        QStringList texts=m_textItem->toPlainText().split("\n");
+        QStringList texts=m_text->toPlainText().split("\n");
 
         if(&texts ==nullptr ||texts.count()==0)return;
         if(m_isStretch){//启用拉伸状态时
@@ -111,15 +105,14 @@ void GraphicsTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
             else{
                 tempRect=rect();
             }
-            painter->drawText(tempRect, Qt::AlignVCenter|Qt::AlignLeft, m_textItem->toPlainText());
+            painter->drawText(tempRect, Qt::AlignVCenter|Qt::AlignLeft, m_text->toPlainText());
         }
         painter->restore();
     }
 }
 
 void GraphicsTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event){
-    m_textItem->isHide=false;
-    m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
+    m_Textwidget->show();
     this->update();
 }
 

@@ -64,6 +64,7 @@ void UGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     emit rluerDispalyItemPoint();
     //create obj
+//    qDebug() << this->selectedItems().count();
     if(c_drawShape != ItemShape::selection){
         this->mousePressDrawItem(event);
     }
@@ -92,6 +93,11 @@ void UGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     else{
         this->mouseReleaseSelectItem(event);
     }
+    if ( this->selectedItems().count() > 1 ){
+        //引发多选事件
+        multipleChoiceEvent();
+    }
+
 }
 
 bool UGraphicsScene::eventFilter(QObject *watched, QEvent *event){
@@ -157,13 +163,18 @@ void UGraphicsScene::mouseReleaseDrawItem(QGraphicsSceneMouseEvent* event){
     }
     this->mouseReleaseSelectItem(event);
 }
-
+void UGraphicsScene::multipleChoiceEvent(){
+    QList<QGraphicsItem *> items = this->selectedItems();
+    if(items.count()>0)
+        foreach(QGraphicsItem *item,items){
+            qgraphicsitem_cast<GraphicsItemBase*>(item)->multipleChoiceEvent();
+        }
+}
 //mouse select item
 void UGraphicsScene::mousePressSelectItem(QGraphicsSceneMouseEvent* event){
     c_down = event->scenePos();
     c_last = event->scenePos();
 
-    this->setFocus();
     if (!m_hoverSizer)
         QGraphicsScene::mousePressEvent(event);
 
@@ -175,13 +186,14 @@ void UGraphicsScene::mousePressSelectItem(QGraphicsSceneMouseEvent* event){
     {
         item = qgraphicsitem_cast<GraphicsItemBase*>(items.first());
     }
+
     if ( item != nullptr ){
 
         nDragHandle = item->hitTest(event->scenePos());
         if ( nDragHandle !=SizeHandleRect::None)
         {
             if(nDragHandle==SizeHandleRect::Rotate)
-             {
+            {
                 m_selectMode=SelectMode::rotate;
                 //旋转时触发
                 item->setRotateStart(event->scenePos());//更新旋转坐标

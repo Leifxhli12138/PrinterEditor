@@ -32,7 +32,8 @@ QRectF GraphicsLineItem::boundingRect() const
 QPainterPath GraphicsLineItem::shape() const
 {
     QPainterPath path;
-    path.addRect(boundingRect());
+    path.lineTo(QPointF(m_endPoint));
+    path.lineTo(QPointF(m_startPoint));
     return qt_graphicsItem_shapeFromPath(path,pen());
 }
 

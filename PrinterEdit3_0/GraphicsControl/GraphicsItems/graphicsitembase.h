@@ -19,8 +19,10 @@ public:
     virtual QPointF origin () const { return QPointF(0,0); }
     virtual Qt::CursorShape getCursor(SizeHandleRect::Direction dir, QPointF point );
     virtual QRectF  rect() const { return QRectF(0,0,0,0);}
+    virtual void multipleChoiceEvent(){}
 protected:
-    virtual void uncheckedEvent();
+    virtual void uncheckedEvent(){}
+    virtual void selectedEvent(){}
     virtual void updateGeometry();
     void setRect(QRectF rect);
     void setState(SelectionHandleState st);

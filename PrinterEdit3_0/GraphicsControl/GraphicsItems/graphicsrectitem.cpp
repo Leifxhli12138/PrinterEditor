@@ -104,7 +104,7 @@ void GraphicsRectItem::resizeTo(SizeHandleRect::Direction dir, const QPointF &po
 void GraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     //画矩形的实现
-    QColor c = QColor(Qt::red);
+    QColor c = QColor(Qt::green);
     //    c.setAlpha(160);
     QLinearGradient result(rect().topLeft(), rect().topRight());
     result.setColorAt(0, c.dark(150));

@@ -1,20 +1,16 @@
 #ifndef UTEXTITEM_H
 #define UTEXTITEM_H
 
-#include <QGraphicsTextItem>
+#include <QTextEdit>
 
-class QGraphicsTextItemEx: public QGraphicsTextItem
+class QGraphicsTextItemEx: public QTextEdit
 {
 public:
-    QGraphicsTextItemEx(QGraphicsItem *parent = nullptr);
+    QGraphicsTextItemEx(const QString &text, QWidget *parent = nullptr);
 
-    // QGraphicsItem interface
-public:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    bool isHide;
-    // QGraphicsItem interface
 protected:
     void focusOutEvent(QFocusEvent *event);
+
 };
 
 #endif // UTEXTITEM_H

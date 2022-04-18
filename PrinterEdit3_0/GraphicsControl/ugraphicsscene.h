@@ -42,6 +42,7 @@ protected:
     void drawBackground(QPainter *painter, const QRectF &rect);
 private:
     QMargins* m_magin;
+    void multipleChoiceEvent();
 private:
     void mousePressDrawItem(QGraphicsSceneMouseEvent* event);
     void mouseMoveDrawItem(QGraphicsSceneMouseEvent* event);

@@ -1,36 +1,28 @@
 #include "qgraphicstextitemex.h"
-#include <QStyleOptionGraphicsItem>
+#include <QTextEdit>
 #include <QDebug>
-#include <QPainter>
+#include <QWidget>
+#include <QScrollBar>
+#include <QGraphicsProxyWidget>
 
-QGraphicsTextItemEx::QGraphicsTextItemEx(QGraphicsItem *parent):QGraphicsTextItem (parent)
-  ,isHide(true)
-{
+QGraphicsTextItemEx::QGraphicsTextItemEx(const QString &text, QWidget *parent)
+    :QTextEdit (text,parent){
 
-}
+    this->setStyleSheet("background-color: transparent;border:0px;");
+    //    this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //设置垂直滚动条样式
+    this->verticalScrollBar()->setStyleSheet(
+                "QScrollBar::sub-page:vertical,QScrollBar::add-page:vertical{background-color:transparent;}"        /*滚动条滑块背景样式*/
+                "QScrollBar::add-line:vertical{background-color:transparent; border:none;}"                         /*滚动条下移按钮样式*/
+                "QScrollBar::sub-line:vertical{background-color:transparent; border:none;}"                         /*滚动条上移按钮样式*/
+                "QScrollBar::handle:vertical:hover{background-color:rgba(168,168,168,220);}"                         /*鼠标进入*/
+                "QScrollBar::handle:vertical{background-color:rgba(168,168,168,170);border-radius:7px;width:13px;}"  /*滚动条滑块样式*/
+                "QScrollBar:vertical{margin:0px 0px 0px 0px;background-color:transparent;border:0px;width:14px;}"); /*滚动条整体样式*/
 
-void QGraphicsTextItemEx::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-
-    if(!isHide){
-        QStyleOptionGraphicsItem op;
-        op.initFrom(widget);
-        op.state = QStyle::State_None;
-        QGraphicsTextItem::paint(painter,&op,widget);
-//        QFontMetrics metrics(painter->font());
-//        QStringList texts=this->toPlainText().split("\n");
-//        //找出占位最长的一行
-//        qreal maxfontWidth=0;
-//        for(int i=0;i<texts.count();++i){
-//            qreal len=metrics.width(texts[i]);
-//            if(maxfontWidth<len){
-//                maxfontWidth=len;
-//            }
-//        }
-//       qDebug() << this->toPlainText();
-    }
+    // "QScrollBar::down-arrow:vertical{border-image:url(:/image/bold.png);width:0px;height:0px;}"         /*滚动条上移图标样式*/
+    // "QScrollBar::up-arrow:vertical{ border-image:url(:/image/bold.png);width:0px; height:0px;}"         /*滚动条下移图标样式*/
 }
 
 void QGraphicsTextItemEx::focusOutEvent(QFocusEvent *event){
-    isHide=true;
-    setTextInteractionFlags(Qt::NoTextInteraction); //取消编辑状态
+    this->hide();
 }
